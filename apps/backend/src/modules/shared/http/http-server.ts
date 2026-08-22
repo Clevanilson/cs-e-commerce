@@ -1,16 +1,4 @@
-export type HttpMethod = "get" | "post" | "put" | "patch" | "delete";
-
-export type HttpRequest = {
-  params: Record<string, string>;
-  query: Record<string, unknown>;
-  body: unknown;
-  headers: Record<string, string | string[] | undefined>;
-};
-
-export type HttpResponse = {
-  statusCode: number;
-  body: unknown;
-};
+import type { HttpMethod, HttpRequest, HttpResponse } from "./http.js";
 
 export type HttpHandler = (
   request: HttpRequest,
