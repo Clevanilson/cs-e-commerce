@@ -3,12 +3,9 @@ import type {
   SqlDatabase,
   SqlDatabaseConfig,
   SqlQueryResult,
-} from "./sql-database.js";
+} from "@shared/database/sql-database";
 
 const { Pool } = pg;
-
-
-
 
 export class PostgresAdapter implements SqlDatabase {
   private readonly pool: pg.Pool;

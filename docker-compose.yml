@@ -13,6 +13,7 @@ services:
       POSTGRES_PORT: 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./apps/backend/src/module/user/infra/database/schema.sql:/docker-entrypoint-initdb.d/01-users.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ecommerce -d ecommerce"]
       interval: 5s

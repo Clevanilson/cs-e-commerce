@@ -17,6 +17,7 @@ coverage/
 *.pid.lock
 
 # Build / cache
+*.tsbuildinfo
 dist/
 build/
 .cache/

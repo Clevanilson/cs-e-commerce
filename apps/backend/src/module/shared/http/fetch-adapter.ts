@@ -1,5 +1,5 @@
-import type { HttpHeaders, HttpQuery, HttpResponse } from "./http.js";
-import type { HttpClient, HttpClientRequest } from "./http-client.js";
+import type { HttpHeaders, HttpQuery, HttpResponse } from "@shared/http/http";
+import type { HttpClient, HttpClientRequest } from "@shared/http/http-client";
 
 export type FetchAdapterConfig = {
   baseUrl?: string;

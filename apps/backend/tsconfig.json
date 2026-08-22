@@ -4,13 +4,16 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
+    "composite": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/module/user/*"],
+      "@shared/*": ["./src/module/shared/*"]
     },
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",
+    "moduleResolution": "bundler",
     "target": "esnext",
     // "types": [],
     // For nodejs:
@@ -43,5 +46,10 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "include": ["src/main.ts"],
+  "references": [
+    { "path": "./src/module/shared" },
+    { "path": "./src/module/user" }
+  ]
 }

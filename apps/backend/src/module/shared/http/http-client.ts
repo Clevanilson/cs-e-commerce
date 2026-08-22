@@ -3,7 +3,7 @@ import type {
   HttpMethod,
   HttpQuery,
   HttpResponse,
-} from "./http.js";
+} from "@shared/http/http";
 
 export type HttpClientRequest = {
   url: string;

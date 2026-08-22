@@ -1,4 +1,4 @@
-import type { HttpMethod, HttpRequest, HttpResponse } from "./http.js";
+import type { HttpMethod, HttpRequest, HttpResponse } from "@shared/http/http";
 
 export type HttpHandler = (
   request: HttpRequest,
