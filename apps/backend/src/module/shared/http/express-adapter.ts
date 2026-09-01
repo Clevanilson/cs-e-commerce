@@ -1,6 +1,8 @@
 import type { Server } from "node:http";
 import express, { type Express, type Request, type Response } from "express";
 import { serve, setup } from "swagger-ui-express";
+import { ApplicationError } from "@shared/error/application-error";
+import { DomainError } from "@shared/error/domain-error";
 import type { HttpMethod, HttpQuery, HttpResponse } from "@shared/http/http";
 import type { HttpHandler, HttpServer } from "@shared/http/http-server";
 
@@ -13,11 +15,23 @@ export class ExpressAdapter implements HttpServer {
     this.app.use(express.json());
   }
 
-  on(method: HttpMethod, path: string, handler: HttpHandler): void {
-    this.app[method](this.toApiPath(path), async (req: Request, res: Response) => {
-      const output = await handler(this.toHttpRequest(req));
-      this.writeResponse(res, output);
-    });
+  on(
+    method: HttpMethod,
+    path: string,
+    handler: HttpHandler,
+    statusCode = 200,
+  ): void {
+    this.app[method](
+      this.toApiPath(path),
+      async (req: Request, res: Response) => {
+        try {
+          const body = await handler(this.toHttpRequest(req));
+          this.writeResponse(res, { statusCode, body });
+        } catch (error) {
+          this.writeResponse(res, this.toErrorResponse(error));
+        }
+      },
+    );
   }
 
   docs(path: string, spec: Record<string, unknown>): void {
@@ -63,6 +77,13 @@ export class ExpressAdapter implements HttpServer {
       body: req.body,
       headers: req.headers,
     };
+  }
+
+  private toErrorResponse(error: unknown): HttpResponse {
+    if (error instanceof DomainError || error instanceof ApplicationError) {
+      return { statusCode: 400, body: { error: { message: error.message } } };
+    }
+    return { statusCode: 500, body: { error: { message: "Internal server error" } } };
   }
 
   private writeResponse(res: Response, output: HttpResponse): void {

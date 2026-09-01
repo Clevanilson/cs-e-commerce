@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import { ApplicationError } from "@shared/error/application-error";
 import { DomainError } from "@shared/error/domain-error";
-import { UserAlreadyExistsError } from "@/application/error/user-already-exists-error";
 import { MockUserRepository } from "@/infra/repository/mock-user-repository";
 import { RegisterUser, type RegisterUserInput } from "./register-user.js";
 
@@ -41,7 +41,7 @@ describe(RegisterUser.name, () => {
 
   it("rejects existing email", async () => {
     await sut.execute(input);
-    await expect(sut.execute(input)).rejects.toThrow(UserAlreadyExistsError);
+    await expect(sut.execute(input)).rejects.toThrow(ApplicationError);
   });
 
   beforeEach(() => {

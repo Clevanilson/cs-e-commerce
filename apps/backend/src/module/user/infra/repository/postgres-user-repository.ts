@@ -1,10 +1,9 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { UserAlreadyExistsError } from "@/application/error/user-already-exists-error";
+import type { SqlDatabase } from "@shared/database/sql-database";
 import type { UserRepository } from "@/application/repository/user-repository";
 import { User } from "@/domain/entity/user";
-import type { SqlDatabase } from "@shared/database/sql-database";
 
 type UserRow = {
   id: string;
@@ -29,15 +28,11 @@ export class PostgresUserRepository implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    try {
-      await this.database.query(
-        `INSERT INTO users (id, name, email, password_hash, role, created_at, updated_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        this.toRow(user),
-      );
-    } catch (error) {
-      this.rethrowSaveError(error);
-    }
+    await this.database.query(
+      `INSERT INTO users (id, name, email, password_hash, role, created_at, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      this.toRow(user),
+    );
   }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -73,21 +68,5 @@ export class PostgresUserRepository implements UserRepository {
       createdAt: row.created_at,
       updatedAt: row.updated_at,
     });
-  }
-
-  private rethrowSaveError(error: unknown): never {
-    if (this.isUniqueViolation(error)) {
-      throw new UserAlreadyExistsError();
-    }
-    throw error;
-  }
-
-  private isUniqueViolation(error: unknown): boolean {
-    return (
-      typeof error === "object" &&
-      error !== null &&
-      "code" in error &&
-      error.code === "23505"
-    );
   }
 }

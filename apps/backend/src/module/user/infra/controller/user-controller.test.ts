@@ -7,13 +7,13 @@ import { FetchAdapter } from "@shared/http/fetch-adapter";
 import type { HttpClient } from "@shared/http/http-client";
 import { RegisterUser } from "@/application/use-case/register-user";
 import { PostgresUserRepository } from "@/infra/repository/postgres-user-repository";
-import { RegisterController } from "./register-controller.js";
+import { UserController } from "./user-controller.js";
 
-describe(RegisterController.name, () => {
+describe(UserController.name, () => {
   const httpServer = new ExpressAdapter();
   const database = new PostgresAdapter(DB_DEFAULT_CONFIG);
   const userRepository = new PostgresUserRepository(database);
-  let sut: RegisterController;
+  let sut: UserController;
   let httpClient: HttpClient;
 
   it("accepts a valid case", async () => {
@@ -57,7 +57,7 @@ describe(RegisterController.name, () => {
   beforeAll(async () => {
     await database.connect();
     await userRepository.ensureSchema();
-    sut = new RegisterController(httpServer, new RegisterUser(userRepository));
+    sut = new UserController(httpServer, new RegisterUser(userRepository));
     await httpServer.listen(0);
     httpClient = new FetchAdapter({ baseUrl: httpServer.getUrl() });
   }, 15_000);

@@ -1,4 +1,4 @@
-import { UserAlreadyExistsError } from "@/application/error/user-already-exists-error";
+import { ApplicationError } from "@shared/error/application-error";
 import type { UserRepository } from "@/application/repository/user-repository";
 import { User } from "@/domain/entity/user";
 
@@ -15,7 +15,7 @@ export class RegisterUser {
   private async ensureEmailIsAvailable(email: string): Promise<void> {
     const existingUser = await this.userRepository.findByEmail(email);
     if (existingUser) {
-      throw new UserAlreadyExistsError();
+      throw new ApplicationError("E-mail already registered");
     }
   }
 
