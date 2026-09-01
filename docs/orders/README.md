@@ -41,9 +41,9 @@ orders/
 
 | Método | Path | Auth |
 |--------|------|------|
-| `POST` | `/orders` | Sim (`CUSTOMER`) |
-| `GET` | `/orders` | Sim |
-| `GET` | `/orders/:id` | Sim |
+| `POST` | `/api/orders` | Sim (`CUSTOMER`) |
+| `GET` | `/api/orders` | Sim |
+| `GET` | `/api/orders/:id` | Sim |
 
 ## Dependências (via abstrações)
 

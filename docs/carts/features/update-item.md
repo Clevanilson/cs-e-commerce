@@ -13,13 +13,13 @@ Cliente autenticado (`CUSTOMER`)
 ## Endpoint
 
 ```
-PATCH /cart/items/:id
+PATCH /api/cart/items/:id
 ```
 
 Também relacionado:
 
 ```
-GET /cart
+GET /api/cart
 ```
 
 ## Dados envolvidos

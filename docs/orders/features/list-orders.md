@@ -14,8 +14,8 @@ Administrador pode consultar pedidos (escopo administrativo).
 ## Endpoints
 
 ```
-GET /orders
-GET /orders/:id
+GET /api/orders
+GET /api/orders/:id
 ```
 
 ## Dados envolvidos

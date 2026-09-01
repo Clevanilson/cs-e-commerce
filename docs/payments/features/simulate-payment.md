@@ -14,14 +14,14 @@ Sistema — cria pagamento `PENDING` durante o checkout
 ## Endpoints
 
 ```
-GET  /orders/:orderId/payment
-POST /orders/:orderId/payment
+GET  /api/orders/:orderId/payment
+POST /api/orders/:orderId/payment
 ```
 
 ## Fluxo no MVP
 
 1. No [checkout](../../orders/features/checkout.md), o sistema cria `Payment` com status `PENDING` e `amount = order.total` (dentro da mesma transação).
-2. Via `POST /orders/:orderId/payment`, o cliente (ou ambiente de teste) simula:
+2. Via `POST /api/orders/:orderId/payment`, o cliente (ou ambiente de teste) simula:
    - aprovação → `Payment.status = APPROVED` e `Order.status = PAID`
    - rejeição → `Payment.status = REJECTED` (e política de pedido associada)
 

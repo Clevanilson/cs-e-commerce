@@ -13,7 +13,7 @@ Visitante (não autenticado)
 ## Endpoint
 
 ```
-POST /auth/register
+POST /api/auth/register
 ```
 
 ## Dados envolvidos

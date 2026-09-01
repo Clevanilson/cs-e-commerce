@@ -13,7 +13,7 @@ Administrador (`ADMIN`)
 ## Endpoint
 
 ```
-PATCH /products/:id/stock
+PATCH /api/products/:id/stock
 ```
 
 ## Dados envolvidos
@@ -42,4 +42,4 @@ Entidade: [`Product`](../data-model.md)
 ## Observações
 
 - A baixa de estoque no **checkout** é responsabilidade do fluxo de Orders (via `ProductGateway.decreaseStock`), em transação — não substitui este endpoint administrativo.
-- Consulta de estoque pode ser feita via `GET /products/:id` ou listagem administrativa.
+- Consulta de estoque pode ser feita via `GET /api/products/:id` ou listagem administrativa.

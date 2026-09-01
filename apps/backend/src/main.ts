@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { DB_DEFAULT_CONFIG } from "@shared/database/default-config";
 import { PostgresAdapter } from "@shared/database/postgres-adapter";
 import { ExpressAdapter } from "@shared/http/express-adapter";
@@ -12,11 +15,13 @@ async function main(): Promise<void> {
   const userRepository = new PostgresUserRepository(database);
   await userRepository.ensureSchema();
   new RegisterController(http, new RegisterUser(userRepository));
-  http.on("get", "/hello", () => ({
-    statusCode: 200,
-    body: { message: "Hello World" },
-  }));
+  http.docs("/docs", loadOpenApi());
   await http.listen(3000);
+}
+
+function loadOpenApi(): Record<string, unknown> {
+  const specPath = join(dirname(fileURLToPath(import.meta.url)), "openapi.json");
+  return JSON.parse(readFileSync(specPath, "utf8")) as Record<string, unknown>;
 }
 
 void main();

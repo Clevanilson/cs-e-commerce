@@ -13,13 +13,13 @@ Cliente (`CUSTOMER`) ou Administrador (`ADMIN`)
 ## Endpoint
 
 ```
-POST /auth/login
+POST /api/auth/login
 ```
 
 ## Fluxo
 
 ```
-POST /auth/login
+POST /api/auth/login
         │
         ▼
 Valida credenciais

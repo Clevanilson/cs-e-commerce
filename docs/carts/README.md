@@ -41,10 +41,10 @@ carts/
 
 | Método | Path | Auth |
 |--------|------|------|
-| `GET` | `/cart` | Sim (`CUSTOMER`) |
-| `POST` | `/cart/items` | Sim |
-| `PATCH` | `/cart/items/:id` | Sim |
-| `DELETE` | `/cart/items/:id` | Sim |
+| `GET` | `/api/cart` | Sim (`CUSTOMER`) |
+| `POST` | `/api/cart/items` | Sim |
+| `PATCH` | `/api/cart/items/:id` | Sim |
+| `DELETE` | `/api/cart/items/:id` | Sim |
 
 ## Relacionamentos
 

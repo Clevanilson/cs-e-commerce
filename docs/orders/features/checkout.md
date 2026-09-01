@@ -13,7 +13,7 @@ Cliente autenticado (`CUSTOMER`)
 ## Endpoint
 
 ```
-POST /orders
+POST /api/orders
 Authorization: Bearer <token>
 ```
 
@@ -23,7 +23,7 @@ Authorization: Bearer <token>
 Cliente
    │
    ▼
-POST /orders
+POST /api/orders
    │
    ▼
 CreateOrder

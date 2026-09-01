@@ -13,8 +13,8 @@ Cliente (e visitante, se a listagem for pública no MVP)
 ## Endpoints
 
 ```
-GET /products
-GET /products/:id
+GET /api/products
+GET /api/products/:id
 ```
 
 ## Dados envolvidos
@@ -43,7 +43,7 @@ Campos apresentados na listagem:
 
 | Código | Situação |
 |--------|----------|
-| `PRODUCT_NOT_FOUND` | `GET /products/:id` com id inexistente ou inativo para o cliente |
+| `PRODUCT_NOT_FOUND` | `GET /api/products/:id` com id inexistente ou inativo para o cliente |
 
 ## Observações
 

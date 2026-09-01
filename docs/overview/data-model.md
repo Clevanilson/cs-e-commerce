@@ -72,8 +72,8 @@ User
 
 | Área | Endpoints |
 |------|-----------|
-| Auth | `POST /auth/register`, `POST /auth/login` |
-| Products | `GET/POST /products`, `GET/PATCH/DELETE /products/:id`, `PATCH /products/:id/stock` |
-| Cart | `GET /cart`, `POST /cart/items`, `PATCH/DELETE /cart/items/:id` |
-| Orders | `POST /orders`, `GET /orders`, `GET /orders/:id` |
-| Payments | `GET/POST /orders/:orderId/payment` |
+| Auth | `POST /api/auth/register`, `POST /api/auth/login` |
+| Products | `GET/POST /api/products`, `GET/PATCH/DELETE /api/products/:id`, `PATCH /api/products/:id/stock` |
+| Cart | `GET /api/cart`, `POST /api/cart/items`, `PATCH/DELETE /api/cart/items/:id` |
+| Orders | `POST /api/orders`, `GET /api/orders`, `GET /api/orders/:id` |
+| Payments | `GET/POST /api/orders/:orderId/payment` |

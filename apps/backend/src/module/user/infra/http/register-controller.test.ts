@@ -20,7 +20,7 @@ describe(RegisterController.name, () => {
     const email = `strohl-${randomUUID()}@example.com`;
     const response = await httpClient.request({
       method: "post",
-      url: "/auth/register",
+      url: "/api/auth/register",
       body: {
         name: "Leon Strohl",
         email,
@@ -39,7 +39,7 @@ describe(RegisterController.name, () => {
   it("rejects an invalid case", async () => {
     const response = await httpClient.request({
       method: "post",
-      url: "/auth/register",
+      url: "/api/auth/register",
       body: {
         name: "",
         email: "not-an-email",

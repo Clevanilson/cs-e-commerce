@@ -38,8 +38,8 @@ payments/
 
 | Método | Path | Auth |
 |--------|------|------|
-| `GET` | `/orders/:orderId/payment` | Sim |
-| `POST` | `/orders/:orderId/payment` | Sim |
+| `GET` | `/api/orders/:orderId/payment` | Sim |
+| `POST` | `/api/orders/:orderId/payment` | Sim |
 
 ## Fronteira clara para evolução
 

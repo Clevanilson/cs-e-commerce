@@ -13,9 +13,9 @@ Administrador (`ADMIN`)
 ## Endpoints
 
 ```
-POST /products
-PATCH /products/:id          # atualização
-DELETE /products/:id         # desativação/remoção lógica conforme implementação
+POST /api/products
+PATCH /api/products/:id          # atualização
+DELETE /api/products/:id         # desativação/remoção lógica conforme implementação
 ```
 
 Esta história cobre principalmente a **criação**. Atualização e ativação/desativação compartilham as mesmas regras de autorização e validação de domínio.

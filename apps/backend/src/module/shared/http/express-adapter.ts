@@ -1,5 +1,6 @@
 import type { Server } from "node:http";
 import express, { type Express, type Request, type Response } from "express";
+import { serve, setup } from "swagger-ui-express";
 import type { HttpMethod, HttpQuery, HttpResponse } from "@shared/http/http";
 import type { HttpHandler, HttpServer } from "@shared/http/http-server";
 
@@ -13,10 +14,14 @@ export class ExpressAdapter implements HttpServer {
   }
 
   on(method: HttpMethod, path: string, handler: HttpHandler): void {
-    this.app[method](path, async (req: Request, res: Response) => {
+    this.app[method](this.toApiPath(path), async (req: Request, res: Response) => {
       const output = await handler(this.toHttpRequest(req));
       this.writeResponse(res, output);
     });
+  }
+
+  docs(path: string, spec: Record<string, unknown>): void {
+    this.app.use(this.toApiPath(path), ...serve, setup(spec));
   }
 
   listen(port: number): Promise<void> {
@@ -74,6 +79,10 @@ export class ExpressAdapter implements HttpServer {
         res.set(name, value);
       }
     }
+  }
+
+  private toApiPath(path: string): string {
+    return `/api${path}`;
   }
 
   private getPort(): number {

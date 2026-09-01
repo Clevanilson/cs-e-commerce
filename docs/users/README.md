@@ -40,8 +40,8 @@ users/
 
 | Método | Path | Auth |
 |--------|------|------|
-| `POST` | `/auth/register` | Público |
-| `POST` | `/auth/login` | Público |
+| `POST` | `/api/auth/register` | Público |
+| `POST` | `/api/auth/login` | Público |
 
 ## Relacionamentos com outros módulos
 

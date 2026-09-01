@@ -40,12 +40,12 @@ products/
 
 | Método | Path | Auth | Role |
 |--------|------|------|------|
-| `GET` | `/products` | Público / autenticado* | — |
-| `GET` | `/products/:id` | Público / autenticado* | — |
-| `POST` | `/products` | Sim | `ADMIN` |
-| `PATCH` | `/products/:id` | Sim | `ADMIN` |
-| `PATCH` | `/products/:id/stock` | Sim | `ADMIN` |
-| `DELETE` | `/products/:id` | Sim | `ADMIN` |
+| `GET` | `/api/products` | Público / autenticado* | — |
+| `GET` | `/api/products/:id` | Público / autenticado* | — |
+| `POST` | `/api/products` | Sim | `ADMIN` |
+| `PATCH` | `/api/products/:id` | Sim | `ADMIN` |
+| `PATCH` | `/api/products/:id/stock` | Sim | `ADMIN` |
+| `DELETE` | `/api/products/:id` | Sim | `ADMIN` |
 
 \* No MVP, listagem/detalhe podem ser públicos; itens inativos não aparecem para o cliente.
 

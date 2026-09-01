@@ -13,7 +13,7 @@ Cliente autenticado (`CUSTOMER`)
 ## Endpoint
 
 ```
-POST /cart/items
+POST /api/cart/items
 ```
 
 ## Dados envolvidos

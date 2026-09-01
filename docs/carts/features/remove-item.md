@@ -13,7 +13,7 @@ Cliente autenticado (`CUSTOMER`)
 ## Endpoint
 
 ```
-DELETE /cart/items/:id
+DELETE /api/cart/items/:id
 ```
 
 ## Dados envolvidos
