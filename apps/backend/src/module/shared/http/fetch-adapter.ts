@@ -132,8 +132,14 @@ export class FetchAdapter implements HttpClient {
   private fromFetchHeaders(headers: Headers): HttpHeaders {
     const result: HttpHeaders = {};
     headers.forEach((value, name) => {
-      result[name] = value;
+      if (name.toLowerCase() !== "set-cookie") {
+        result[name] = value;
+      }
     });
+    const setCookies = headers.getSetCookie();
+    if (setCookies.length > 0) {
+      result["set-cookie"] = setCookies;
+    }
     return result;
   }
 

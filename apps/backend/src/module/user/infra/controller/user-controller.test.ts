@@ -5,6 +5,8 @@ import { PostgresAdapter } from "@shared/database/postgres-adapter";
 import { ExpressAdapter } from "@shared/http/express-adapter";
 import { FetchAdapter } from "@shared/http/fetch-adapter";
 import type { HttpClient } from "@shared/http/http-client";
+import { JwtTokenGenerator } from "@shared/token/jwt-token-generator";
+import { LoginUser } from "@/application/use-case/login-user";
 import { RegisterUser } from "@/application/use-case/register-user";
 import { PostgresUserRepository } from "@/infra/repository/postgres-user-repository";
 import { UserController } from "./user-controller.js";
@@ -54,10 +56,58 @@ describe(UserController.name, () => {
     });
   });
 
+  it("accepts a valid login", async () => {
+    const email = `gustave-${randomUUID()}@example.com`;
+    const name = "Gustave";
+    await httpClient.request({
+      method: "post",
+      url: "/api/auth/register",
+      body: {
+        name,
+        email,
+        password: "secret123",
+      },
+    });
+    const response = await httpClient.request({
+      method: "post",
+      url: "/api/auth/login",
+      body: {
+        email,
+        password: "secret123",
+      },
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual({ name });
+    expect(response.headers?.["set-cookie"]).toEqual(
+      expect.arrayContaining([expect.stringMatching(/token=.+;.*HttpOnly/i)]),
+    );
+  });
+
+  it("rejects an invalid login", async () => {
+    const response = await httpClient.request({
+      method: "post",
+      url: "/api/auth/login",
+      body: {
+        email: "unknown@example.com",
+        password: "secret123",
+      },
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toEqual({
+      error: {
+        message: "Invalid credentials",
+      },
+    });
+  });
+
   beforeAll(async () => {
     await database.connect();
     await userRepository.ensureSchema();
-    sut = new UserController(httpServer, new RegisterUser(userRepository));
+    sut = new UserController(
+      httpServer,
+      new RegisterUser(userRepository),
+      new LoginUser(userRepository, new JwtTokenGenerator("secret")),
+    );
     await httpServer.listen(0);
     httpClient = new FetchAdapter({ baseUrl: httpServer.getUrl() });
   }, 15_000);

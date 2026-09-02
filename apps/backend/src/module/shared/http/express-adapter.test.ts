@@ -37,6 +37,22 @@ describe(ExpressAdapter.name, () => {
     expect(response.body).toEqual({ id: "1" });
   });
 
+  it("sets http only cookies from the handler", async () => {
+    sut.on("post", "/login", (_request, reply) => {
+      reply.cookie("token", "abc", { httpOnly: true });
+      return { name: "Ada" };
+    });
+    const response = await httpClient.request({
+      method: "post",
+      url: "/api/login",
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual({ name: "Ada" });
+    expect(response.headers?.["set-cookie"]).toEqual(
+      expect.arrayContaining([expect.stringMatching(/token=abc;.*HttpOnly/i)]),
+    );
+  });
+
   it.each([
     ["application", new ApplicationError("invalid input")],
     ["domain", new DomainError("invalid input")],

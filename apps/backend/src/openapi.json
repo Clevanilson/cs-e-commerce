@@ -57,6 +57,53 @@
           }
         }
       }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authenticated",
+            "headers": {
+              "Set-Cookie": {
+                "description": "HTTP-only authentication token",
+                "schema": {
+                  "type": "string",
+                  "example": "token=<jwt>; Path=/; HttpOnly"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -102,6 +149,32 @@
             "type": "string",
             "enum": ["CUSTOMER", "ADMIN"],
             "example": "CUSTOMER"
+          }
+        }
+      },
+      "LoginUserInput": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "leon@example.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "example": "secret123"
+          }
+        }
+      },
+      "LoginUserResponse": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Leon Strohl"
           }
         }
       },

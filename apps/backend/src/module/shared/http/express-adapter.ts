@@ -3,7 +3,13 @@ import express, { type Express, type Request, type Response } from "express";
 import { serve, setup } from "swagger-ui-express";
 import { ApplicationError } from "@shared/error/application-error";
 import { DomainError } from "@shared/error/domain-error";
-import type { HttpMethod, HttpQuery, HttpResponse } from "@shared/http/http";
+import type {
+  HttpCookieOptions,
+  HttpMethod,
+  HttpQuery,
+  HttpReply,
+  HttpResponse,
+} from "@shared/http/http";
 import type { HttpHandler, HttpServer } from "@shared/http/http-server";
 
 export class ExpressAdapter implements HttpServer {
@@ -25,8 +31,12 @@ export class ExpressAdapter implements HttpServer {
       this.toApiPath(path),
       async (req: Request, res: Response) => {
         try {
-          const body = await handler(this.toHttpRequest(req));
-          this.writeResponse(res, { statusCode, body });
+          const cookies: PendingCookie[] = [];
+          const body = await handler(
+            this.toHttpRequest(req),
+            this.toHttpReply(cookies),
+          );
+          this.writeResponse(res, { statusCode, body }, cookies);
         } catch (error) {
           this.writeResponse(res, this.toErrorResponse(error));
         }
@@ -86,9 +96,28 @@ export class ExpressAdapter implements HttpServer {
     return { statusCode: 500, body: { error: { message: "Internal server error" } } };
   }
 
-  private writeResponse(res: Response, output: HttpResponse): void {
+  private writeResponse(
+    res: Response,
+    output: HttpResponse,
+    cookies: PendingCookie[] = [],
+  ): void {
     this.applyHeaders(res, output);
+    this.applyCookies(res, cookies);
     res.status(output.statusCode).json(output.body);
+  }
+
+  private toHttpReply(cookies: PendingCookie[]): HttpReply {
+    return {
+      cookie(name, value, options = {}) {
+        cookies.push({ name, value, options });
+      },
+    };
+  }
+
+  private applyCookies(res: Response, cookies: PendingCookie[]): void {
+    for (const cookie of cookies) {
+      res.cookie(cookie.name, cookie.value, cookie.options);
+    }
   }
 
   private applyHeaders(res: Response, output: HttpResponse): void {
@@ -114,3 +143,9 @@ export class ExpressAdapter implements HttpServer {
     return address.port;
   }
 }
+
+type PendingCookie = {
+  name: string;
+  value: string;
+  options: HttpCookieOptions;
+};
